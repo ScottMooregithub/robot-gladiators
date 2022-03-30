@@ -10,7 +10,7 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 var fight = function (enemyName) {
-  while (enemyHealth > 0) {
+  while (playerHealth > 0 && enemyHealth > 0) {
     var promptFight = window.prompt(
       "Would you like to Fight or SKIP this battle? enter 'FIGHT' or 'SKIP' to choose."
     );
@@ -34,6 +34,7 @@ var fight = function (enemyName) {
       );
       if (enemyHealth <= 0) {
         window.alert(enemyName + " has died!");
+        break;
       } else {
         window.alert(enemyName + " still has " + enemyHealth + " health left.");
       }
@@ -51,17 +52,21 @@ var fight = function (enemyName) {
 
       if (playerHealth <= 0) {
         window.alert(playerName + " has died!");
+        break;
       } else {
         window.alert(
           playerName + " still has " + playerHealth + " health left."
         );
       }
-    } else if (promptFight === "skip" || promptFight === "SKIP") {
-      var confirmSkip = window.confirm("Are you SUre you'd like to quit?");
+    }
+    if (promptFight === "skip" || promptFight === "SKIP") {
+      var confirmSkip = window.confirm("Are you Sure you'd like to quit?");
       if (confirmSkip) {
+        window.alert(playerName + " has chosen to skip the fight. Goodbye!");
+        playerMoney = playerMoney - 10;
+        console.log("playerMoney", playerMoney);
+        break;
       }
-      window.alert(playerName + " has chosen to skip the fight. Goodbye!");
-      playerMoney = playerMoney - 2;
     } else {
       window.alert("You need to choose a valid option. Try again!");
     }
