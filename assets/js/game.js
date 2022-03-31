@@ -90,7 +90,7 @@ var startGame = function () {
       break;
     }
   }
-  //endGamne();
+  endGamne();
 };
 var endGamne = function () {
   window.alert("The game has now ended. Let's see how you did!");
@@ -111,4 +111,3 @@ var endGamne = function () {
   }
 };
 startGame();
-endGamne();
