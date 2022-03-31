@@ -18,15 +18,17 @@ var fight = function (enemyName) {
       var confirmSkip = window.confirm("Are you Sure you'd like to quit?");
       if (confirmSkip) {
         window.alert(playerName + " has chosen to skip the fight. Goodbye!");
-        playerMoney = playerMoney - 10;
+        playerMoney = Math.max(0, playerMoney - 10);
         console.log("playerMoney", playerMoney);
         break;
       }
     }
     //subrtract the value of 'playerAttack' from the value of 'enemyHealth' and use the reults to update the value in the 'enemyHealth' variable
-    enemyHealth = enemyHealth - playerAttack;
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+    enemyHealth = Math.max(0, enemyHealth - damage);
     //Log a resluting message to the console so we know that it worked.
-    playerHealth = playerHealth - enemyAttack;
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+    playerHealth = Math.max(0, playerHealth - damage);
 
     if (promptFight === "fight" || promptFight === "FIGHT") {
       //remove enemy's health by subtracting the amount set in the playerAttack variable
@@ -83,7 +85,7 @@ var startGame = function () {
     if (playerHealth > 0) {
       window.alert("Welcome to Robot Gladiators! Round" + (i + 1));
       var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50;
+      enemyHealth = randomNumber(40, 60);
       fight(pickedEnemyName);
       if (playerHealth > 0 && i < enemyNames.length - 1) {
         var storeConfirm = window.confirm(
@@ -118,6 +120,11 @@ var endGamne = function () {
     window.alert("Thank you for playing Robot Gladiators! Come back soon!");
   }
 };
+var randomNumber = function (min, max) {
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+  return value;
+};
+
 var shop = function () {
   var shopOptionPrompt = window.prompt(
     "would you like to REFILL your health, UPGRADE you ATTACK, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
