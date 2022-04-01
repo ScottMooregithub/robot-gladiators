@@ -1,19 +1,31 @@
+var fightOrSkip = function () {
+  var promptFight = window.prompt(
+    "Would you like to FIGHT or SKIP this battle? Enter 'Fight' or 'SKIP' to choose."
+  );
+  promptFight = promptFight.toLowerCase();
+  if (promptFight === "" || promptFight === null) {
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip();
+  }
+
+  if (promptFight === "skip") {
+    var confirmSkip = window.confirm("Are you Sure you'd like to quit?");
+    if (confirmSkip) {
+      window.alert(playerInfo.name + " has chosen to skip the fight. Goodbye!");
+      playerInfo.money = Math.max(0, playerInfo.money - 10);
+      console.log("playerMoney", playerInfo.money);
+      return true;
+    }
+  }
+  return false;
+};
+
 var fight = function (enemy) {
   while (playerInfo.health > 0 && enemy.health > 0) {
-    var promptFight = window.prompt(
-      "Would you like to Fight or SKIP this battle? enter 'FIGHT' or 'SKIP' to choose."
-    );
-    if (promptFight === "skip" || promptFight === "SKIP") {
-      var confirmSkip = window.confirm("Are you Sure you'd like to quit?");
-      if (confirmSkip) {
-        window.alert(
-          playerInfo.name + " has chosen to skip the fight. Goodbye!"
-        );
-        playerInfo.money = Math.max(0, playerInfo.money - 10);
-        console.log("playerMoney", playerInfo.money);
-        break;
-      }
+    if (fightOrSkip()) {
+      break;
     }
+
     //subrtract the value of 'playerAttack' from the value of 'enemyHealth' and use the reults to update the value in the 'enemyHealth' variable
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
     enemy.health = Math.max(0, enemy.health - damage);
@@ -21,49 +33,43 @@ var fight = function (enemy) {
     var damage = randomNumber(enemy.attack - 3, enemy.attack);
     playerInfo.health = Math.max(0, playerInfo.health - damage);
 
-    if (promptFight === "fight" || promptFight === "FIGHT") {
-      //remove enemy's health by subtracting the amount set in the playerAttack variable
+    //remove enemy's health by subtracting the amount set in the playerAttack variable
 
-      console.log(
-        playerInfo.name +
-          " attacked " +
-          enemy.name +
-          ". " +
-          enemy.name +
-          " now has " +
-          enemy.health +
-          " health remaining."
-      );
-      if (enemy.health <= 0) {
-        window.alert(enemy.name + " has died!");
-        break;
-      } else {
-        window.alert(
-          enemy.name + " still has " + enemy.health + " health left."
-        );
-      }
-
-      console.log(
+    console.log(
+      playerInfo.name +
+        " attacked " +
         enemy.name +
-          " attacked " +
-          playerInfo.name +
-          ". " +
-          playerInfo.name +
-          " now has " +
-          playerInfo.health +
-          " health remaining."
-      );
-
-      if (playerInfo.health <= 0) {
-        window.alert(playerInfo.name + " has died!");
-        break;
-      } else {
-        window.alert(
-          playerInfo.name + " still has " + playerInfo.health + " health left."
-        );
-      }
+        ". " +
+        enemy.name +
+        " now has " +
+        enemy.health +
+        " health remaining."
+    );
+    if (enemy.health <= 0) {
+      window.alert(enemy.name + " has died!");
+      break;
     } else {
-      window.alert("You need to choose a valid option. Try again!");
+      window.alert(enemy.name + " still has " + enemy.health + " health left.");
+    }
+
+    console.log(
+      enemy.name +
+        " attacked " +
+        playerInfo.name +
+        ". " +
+        playerInfo.name +
+        " now has " +
+        playerInfo.health +
+        " health remaining."
+    );
+
+    if (playerInfo.health <= 0) {
+      window.alert(playerInfo.name + " has died!");
+      break;
+    } else {
+      window.alert(
+        playerInfo.name + " still has " + playerInfo.health + " health left."
+      );
     }
 
     //sdulting message tot the console so we know that it worked.
@@ -123,6 +129,7 @@ var getPlayerName = function () {
   while (name === "" || name === null) {
     name = prompt("What is your robot's name?");
   }
+  return name;
 };
 
 var playerInfo = {
